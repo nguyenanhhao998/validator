@@ -1,9 +1,8 @@
-package com.validation.rule.constraint;
+package com.d3h.validation.rule.constraint;
 
-import javax.validation.constraints.NotNull;
+import com.d3h.validation.rule.annotation.NotNull;
 
 public class NotNullRule implements Rule<NotNull> {
-
     @Override
     public boolean check(NotNull annotation, Object value) {
         return value != null;
@@ -13,4 +12,5 @@ public class NotNullRule implements Rule<NotNull> {
     public Class<NotNull> getAnnotationClass() {
         return NotNull.class;
     }
+
 }

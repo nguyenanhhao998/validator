@@ -1,6 +1,6 @@
-package com.validation.rule;
+package com.d3h.validation.rule;
 
-import com.validation.rule.constraint.Rule;
+import com.d3h.validation.rule.constraint.Rule;
 
 import java.lang.annotation.*;
 

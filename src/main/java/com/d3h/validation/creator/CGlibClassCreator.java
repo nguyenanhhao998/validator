@@ -1,8 +1,8 @@
-package com.validation.creator;
+package com.d3h.validation.creator;
 
-import com.validation.handler.Handler;
+import com.d3h.validation.exception.D3HException;
+import com.d3h.validation.handler.Handler;
 import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.NoOp;
 
 public class CGlibClassCreator implements ICreator {
 
@@ -17,8 +17,6 @@ public class CGlibClassCreator implements ICreator {
         }
         return instance;
     }
-
-
     @Override
     public <T> T create(Class<T> clazz) {
         Handler handler = new Handler();

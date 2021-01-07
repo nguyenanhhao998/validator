@@ -1,4 +1,4 @@
-package com.validation.rule.constraint;
+package com.d3h.validation.rule.constraint;
 
 import java.lang.annotation.Annotation;
 
