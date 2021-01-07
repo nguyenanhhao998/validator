@@ -5,12 +5,7 @@ import com.d3h.validation.validator.Validator;
 import com.d3h.validation.violation.ConstraintViolation;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Handler implements MethodInterceptor {
@@ -32,7 +27,7 @@ public class Handler implements MethodInterceptor {
                 throw new D3HException(constraintViolations);
             }
 
-            constraintViolations = Validator.getInstance().validateFieldsFromSubClassInstance(o);
+            constraintViolations = Validator.getInstance().validateFields(o, o.getClass().getSuperclass());
             if (constraintViolations.size() != 0){
                 throw new D3HException(constraintViolations);
             }

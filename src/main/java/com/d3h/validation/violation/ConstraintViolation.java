@@ -5,11 +5,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public interface ConstraintViolation {
-    public String getMessage();
-    public Annotation getAnnotation();
-    public Object getInvalidValue();
-    public Field getField() ;
-    public Method getMethod() ;
-    public Object[] getExecutableParameters();
-    public Object getExecutableReturnValue();
+    String getMessage();
+    Annotation getAnnotation();
+    Object getInvalidValue();
+    Field getField() ;
+    Method getMethod() ;
+    Object[] getExecutableParameters();
+    Object getExecutableReturnValue();
 }

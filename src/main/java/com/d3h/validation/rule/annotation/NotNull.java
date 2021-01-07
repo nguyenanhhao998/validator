@@ -9,5 +9,5 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotNull {
-    String message() default "Hao Not Null";
+    String message() default "Value cannot be null";
 }
