@@ -1,9 +1,8 @@
-package rule;
+package com.validation.rule.constraint;
 
 import java.lang.annotation.Annotation;
 
 public interface Rule<T extends Annotation> {
-    void check(T annotation, String fieldName, Object target);
-
+    boolean check(T annotation, Object value);
     Class<T> getAnnotationClass();
 }
