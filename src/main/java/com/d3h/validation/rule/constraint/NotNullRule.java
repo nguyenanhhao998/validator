@@ -7,10 +7,4 @@ public class NotNullRule implements Rule<NotNull> {
     public boolean check(NotNull annotation, Object value) {
         return value != null;
     }
-
-    @Override
-    public Class<NotNull> getAnnotationClass() {
-        return NotNull.class;
-    }
-
 }

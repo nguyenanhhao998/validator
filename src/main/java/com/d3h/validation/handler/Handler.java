@@ -14,6 +14,7 @@ public class Handler implements MethodInterceptor {
     public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws D3HException {
 
         List<ConstraintViolation> constraintViolations;
+        System.out.println(o.getClass());
 
         try {
             constraintViolations = Validator.getInstance().validateMethodParameters(o, method, args);

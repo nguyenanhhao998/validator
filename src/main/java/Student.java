@@ -7,7 +7,11 @@ public class Student {
     private String mssv;
 
     public Student() {
-        mssv = "1712418";
+        mssv = null;
+    }
+
+    public Student(String mssv) {
+        this.mssv = null;
     }
 
     @NotNull
