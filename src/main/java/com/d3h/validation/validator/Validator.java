@@ -3,9 +3,11 @@ package com.d3h.validation.validator;
 import com.d3h.validation.rule.Constraint;
 import com.d3h.validation.rule.constraint.Rule;
 import com.d3h.validation.violation.ConstraintViolation;
+import com.d3h.validation.violation.ConstructorConstraintViolation;
 import com.d3h.validation.violation.FieldConstraintViolation;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -82,6 +84,60 @@ public class Validator {
         return new ArrayList<>();
     }
 
+    public List<ConstraintViolation> validateConstructor(Constructor constructor, Object[] parameterValues) {
+        List<ConstraintViolation> listConstraintViolations = new ArrayList<>();
 
+        try {
+            Annotation[] declaredAnnotations = constructor.getDeclaredAnnotations();
 
+            if (declaredAnnotations.length != 0) {
+                for (Annotation annotation : declaredAnnotations) {
+                    Constraint bindAnnotation = annotation.annotationType().getDeclaredAnnotation(Constraint.class);
+                    if (bindAnnotation == null) {
+                        continue;
+                    }
+                    Class<? extends Rule<? extends Annotation>> ruleClazz = bindAnnotation.value();
+                    Rule rule = ruleClazz.newInstance();
+
+                    for (Object value : parameterValues) {
+                        if (!rule.check(annotation, value)) {
+                            String errorMessage = getMessageFromAnnotation(annotation);
+                            errorMessage = errorMessage == null ? "Error with " + value : errorMessage;
+                            ConstraintViolation constraintViolation = new ConstructorConstraintViolation(errorMessage, annotation, constructor, parameterValues);
+                            listConstraintViolations.add(constraintViolation);
+                        }
+                    }
+                }
+            }
+
+            Annotation[][] annotationMatrix = constructor.getParameterAnnotations();
+
+            for (int i = 0; i < annotationMatrix.length; i++) {
+
+                for (Annotation annotation : annotationMatrix[i]) {
+                    Constraint bindAnnotation = annotation.annotationType().getDeclaredAnnotation(Constraint.class);
+                    if (bindAnnotation == null) {
+                        continue;
+                    }
+                    Class<? extends Rule<? extends Annotation>> ruleClazz = bindAnnotation.value();
+                    Rule rule = ruleClazz.newInstance();
+
+                    if (!rule.check(annotation, parameterValues[i])) {
+                        String errorMessage = getMessageFromAnnotation(annotation);
+                        errorMessage = errorMessage == null ? "Error in " + parameterValues[i] : errorMessage;
+                        ConstraintViolation constraintViolation = new ConstructorConstraintViolation(errorMessage, annotation, constructor, parameterValues);
+                        listConstraintViolations.add(constraintViolation);
+                    }
+                }
+            }
+
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            return listConstraintViolations;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return listConstraintViolations;
+        }
+        return listConstraintViolations;
+    }
 }
