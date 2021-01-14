@@ -1,11 +1,13 @@
 package com.d3h.validation.rule.constraint;
-import com.d3h.validation.rule.annotation.Min;
+
+import com.d3h.validation.rule.annotation.Max;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class MinRule implements Rule<Min, Object> {
+public class MaxRule implements Rule<Max, Object> {
     @Override
-    public boolean check(Min annotation, Object value) {
+    public boolean check(Max annotation, Object value) {
         Class clazz = value.getClass();
 
         if(clazz != BigDecimal.class && clazz != BigInteger.class && clazz != Byte.class && clazz != Short.class && clazz != Integer.class && clazz != Long.class)
@@ -19,7 +21,7 @@ public class MinRule implements Rule<Min, Object> {
         if(clazz == BigDecimal.class){
             finalValue = ((BigDecimal) value).longValue();
 
-            if(finalValue < annotation.value())
+            if(finalValue > annotation.value())
                 return false;
             else
                 return true;
@@ -28,7 +30,7 @@ public class MinRule implements Rule<Min, Object> {
         if(clazz == BigInteger.class){
             finalValue = ((BigInteger) value).longValue();
 
-            if(finalValue < annotation.value())
+            if(finalValue > annotation.value())
                 return false;
             else
                 return true;
@@ -37,7 +39,7 @@ public class MinRule implements Rule<Min, Object> {
         if(clazz == Byte.class){
             finalValue = ((Byte) value).longValue();
 
-            if(finalValue < annotation.value())
+            if(finalValue > annotation.value())
                 return false;
             else
                 return true;
@@ -46,7 +48,7 @@ public class MinRule implements Rule<Min, Object> {
         if(clazz == Short.class) {
             finalValue = ((Short) value).longValue();
 
-            if(finalValue < annotation.value())
+            if(finalValue > annotation.value())
                 return false;
             else
                 return true;
@@ -55,7 +57,7 @@ public class MinRule implements Rule<Min, Object> {
         if(clazz == Integer.class) {
             finalValue = ((Integer) value).longValue();
 
-            if(finalValue < annotation.value())
+            if(finalValue > annotation.value())
                 return false;
             else
                 return true;
@@ -64,7 +66,7 @@ public class MinRule implements Rule<Min, Object> {
         if(clazz == Long.class) {
             finalValue = (Long) value;
 
-            if(finalValue < annotation.value())
+            if(finalValue > annotation.value())
                 return false;
             else
                 return true;
@@ -73,4 +75,3 @@ public class MinRule implements Rule<Min, Object> {
         return false;
     }
 }
-

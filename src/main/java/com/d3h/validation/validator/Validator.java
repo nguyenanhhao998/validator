@@ -47,7 +47,7 @@ public class Validator {
                         if (bindAnnotation == null){
                             continue;
                         }
-                        Class<? extends Rule<? extends Annotation>> ruleClazz = bindAnnotation.value();
+                        Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
                         Rule rule = ruleClazz.newInstance();
 
                         if (!rule.check(annotation, value)){
@@ -96,7 +96,7 @@ public class Validator {
                     if (bindAnnotation == null) {
                         continue;
                     }
-                    Class<? extends Rule<? extends Annotation>> ruleClazz = bindAnnotation.value();
+                    Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
                     Rule rule = ruleClazz.newInstance();
 
                     for (Object value : parameterValues) {
@@ -119,7 +119,7 @@ public class Validator {
                     if (bindAnnotation == null) {
                         continue;
                     }
-                    Class<? extends Rule<? extends Annotation>> ruleClazz = bindAnnotation.value();
+                    Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
                     Rule rule = ruleClazz.newInstance();
 
                     if (!rule.check(annotation, parameterValues[i])) {
