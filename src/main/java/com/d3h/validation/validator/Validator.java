@@ -1,5 +1,6 @@
 package com.d3h.validation.validator;
 
+import com.d3h.validation.rule.constraint.Composite.Creator;
 import com.d3h.validation.rule.Constraint;
 import com.d3h.validation.rule.constraint.Rule;
 import com.d3h.validation.violation.ConstraintViolation;
@@ -48,7 +49,7 @@ public class Validator {
                             continue;
                         }
                         Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
-                        Rule rule = ruleClazz.newInstance();
+                        Rule rule = (Rule) Creator.getInstance().create(ruleClazz);
 
                         if (!rule.check(annotation, value)){
                             String errorMessage = getMessageFromAnnotation(annotation) ;
@@ -87,7 +88,6 @@ public class Validator {
     public List<ConstraintViolation> validateConstructor(Constructor constructor, Object[] parameterValues) {
         List<ConstraintViolation> listConstraintViolations = new ArrayList<>();
 
-        try {
             Annotation[] declaredAnnotations = constructor.getDeclaredAnnotations();
 
             if (declaredAnnotations.length != 0) {
@@ -97,7 +97,7 @@ public class Validator {
                         continue;
                     }
                     Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
-                    Rule rule = ruleClazz.newInstance();
+                    Rule rule = (Rule) Creator.getInstance().create(ruleClazz);
 
                     for (Object value : parameterValues) {
                         if (!rule.check(annotation, value)) {
@@ -120,7 +120,7 @@ public class Validator {
                         continue;
                     }
                     Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
-                    Rule rule = ruleClazz.newInstance();
+                    Rule rule = (Rule) Creator.getInstance().create(ruleClazz);
 
                     if (!rule.check(annotation, parameterValues[i])) {
                         String errorMessage = getMessageFromAnnotation(annotation);
@@ -131,13 +131,7 @@ public class Validator {
                 }
             }
 
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            return listConstraintViolations;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return listConstraintViolations;
-        }
+
         return listConstraintViolations;
     }
 
@@ -150,13 +144,11 @@ public class Validator {
 
         Rule rule = null;
         try {
-            rule = ruleClazz.newInstance();
+            rule = (Rule) ruleClazz.newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
-            return null;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-            return null;
         }
 
         if (!rule.check(annotation, value)) {
