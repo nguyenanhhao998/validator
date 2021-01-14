@@ -140,4 +140,30 @@ public class Validator {
         }
         return listConstraintViolations;
     }
+
+    public ConstraintViolation validateAnnotation(Annotation annotation, Object value){
+        Constraint bindAnnotation = annotation.annotationType().getDeclaredAnnotation(Constraint.class);
+        if (bindAnnotation == null) {
+            return null;
+        }
+        Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
+
+        Rule rule = null;
+        try {
+            rule = ruleClazz.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        if (!rule.check(annotation, value)) {
+            String errorMessage = getMessageFromAnnotation(annotation);
+            errorMessage = errorMessage == null ? "Error in " + value : errorMessage;
+            return new ConstructorConstraintViolation(errorMessage, annotation, null, null);
+        }
+        return null;
+    }
 }
