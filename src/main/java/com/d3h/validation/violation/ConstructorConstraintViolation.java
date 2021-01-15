@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 public class ConstructorConstraintViolation implements ConstraintViolation{
     String message;
@@ -56,5 +57,10 @@ public class ConstructorConstraintViolation implements ConstraintViolation{
     @Override
     public Constructor getConstructor() {
         return constructor;
+    }
+
+    @Override
+    public Parameter getParameter() {
+        return null;
     }
 }

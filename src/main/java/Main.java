@@ -1,16 +1,22 @@
 import com.d3h.validation.creator.CGlibClassCreator;
 import com.d3h.validation.exception.D3HException;
-import com.d3h.validation.rule.annotation.Bound;
-import com.d3h.validation.validator.Validator;
+import com.d3h.validation.violation.ConstraintViolation;
 
-import java.lang.annotation.Annotation;
+import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws IllegalAccessException {
+    public static void main(String[] args) {
+        CGlibClassCreator classCreator = CGlibClassCreator.getInstance();
+        Student student = classCreator.create(Student.class);
         try {
-            Student student = CGlibClassCreator.getInstance().create(Student.class);
-        } catch (D3HException d3HException){
-            System.out.println(d3HException.getConstraintViolations().get(0).getMessage());
+            student.update("1712500", "Tran Phuc Quang Huy", 10, 22);
+            student.getAge();
+        } catch (D3HException exception) {
+            exception.printStackTrace();
+            List<ConstraintViolation> constraintViolations = exception.getConstraintViolations();
+            for(ConstraintViolation constraintViolation : constraintViolations) {
+                System.out.println(constraintViolation.getMessage());
+            }
         }
     }
 }

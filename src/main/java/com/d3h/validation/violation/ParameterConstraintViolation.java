@@ -1,27 +1,39 @@
 package com.d3h.validation.violation;
 
+import com.d3h.validation.validator.Validator;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
-public class FieldConstraintViolation implements ConstraintViolation{
-    String message;
-    Annotation annotation;
-    Object invalidValue;
-    Field field;
+public class ParameterConstraintViolation implements ConstraintViolation {
+    private final String message;
+    private final Parameter parameter;
+    private final Annotation annotation;
+    private final Object invalidValue;
+    private final Method method;
 
-    public FieldConstraintViolation(String message, Annotation annotation, Object invalidValue, Field field) {
+    public ParameterConstraintViolation(String message,
+                                        Parameter parameter,
+                                        Annotation annotation,
+                                        Object invalidValue,
+                                        Method method) {
         this.message = message;
+        this.parameter = parameter;
         this.annotation = annotation;
         this.invalidValue = invalidValue;
-        this.field = field;
+        this.method = method;
     }
-
     @Override
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public Parameter getParameter() {
+        return parameter;
     }
 
     @Override
@@ -35,12 +47,12 @@ public class FieldConstraintViolation implements ConstraintViolation{
     }
 
     @Override
-    public Field getField() {
-        return field;
+    public Method getMethod() {
+        return method;
     }
 
     @Override
-    public Method getMethod() {
+    public Field getField() {
         return null;
     }
 
@@ -56,11 +68,6 @@ public class FieldConstraintViolation implements ConstraintViolation{
 
     @Override
     public Constructor getConstructor() {
-        return null;
-    }
-
-    @Override
-    public Parameter getParameter() {
         return null;
     }
 }

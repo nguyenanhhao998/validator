@@ -1,34 +1,29 @@
-import com.d3h.validation.exception.D3HException;
-import com.d3h.validation.rule.annotation.Bound;
 import com.d3h.validation.rule.annotation.Min;
 import com.d3h.validation.rule.annotation.NotNull;
 
 public class Student {
+    private String id;
 
-    @NotNull
-    private String mssv;
     private String name;
+
+    private int finalGrade;
 
     private int age;
 
     public Student() {
-        mssv = null;
-
     }
 
-    public Student(String mssv) {
-        this.mssv = mssv;
-    }
-
-
-    public Student( String mssv,String name) {
-        this.mssv = mssv;
+    public void update(@NotNull String id, @NotNull String name,
+                       @Min(value = 0) int finalGrade,@Min(value = 1) int age) {
+        this.id = id;
         this.name = name;
+        this.finalGrade = finalGrade;
+        this.age = age;
     }
 
-    @NotNull
-    public String setMssv(@NotNull String mssv){
-        this.mssv = mssv;
-        return "AHII";
+    @Min(value = 1)
+    public int getAge() {
+        return age - 100;
     }
+
 }

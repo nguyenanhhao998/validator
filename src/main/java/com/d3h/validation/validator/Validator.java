@@ -3,14 +3,10 @@ package com.d3h.validation.validator;
 import com.d3h.validation.rule.constraint.Composite.Creator;
 import com.d3h.validation.rule.Constraint;
 import com.d3h.validation.rule.constraint.Rule;
-import com.d3h.validation.violation.ConstraintViolation;
-import com.d3h.validation.violation.ConstructorConstraintViolation;
-import com.d3h.validation.violation.FieldConstraintViolation;
+import com.d3h.validation.violation.*;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,11 +74,57 @@ public class Validator {
     }
 
     public List<ConstraintViolation> validateMethodParameters(Object object, Method method, Object[] parameterValues){
-        return new ArrayList<>();
+        List<ConstraintViolation> listConstraintViolations = new ArrayList<>();
+        Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+        Parameter[] parameters = method.getParameters();
+        for(int i = 0; i < parameterAnnotations.length && i < parameterValues.length && i < parameters.length; i++) {
+            Annotation[] parameterAnnotation = parameterAnnotations[i];
+            Parameter parameter = parameters[i];
+            Object parameterValue = parameterValues[i];
+            for(Annotation annotation : parameterAnnotation) {
+                Constraint bindAnnotation = annotation.annotationType().getDeclaredAnnotation(Constraint.class);
+                if (bindAnnotation == null)
+                    continue;
+                Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
+                Rule rule = (Rule) Creator.getInstance().create(ruleClazz);
+                if(!rule.check(annotation, parameterValue)) {
+                    String errorMessage = getMessageFromAnnotation(annotation);
+                    errorMessage = errorMessage == null ? String.format("%s: Error in %s", parameter.getName(), parameterValue) :
+                            String.format("%s: %s", parameter.getName(), getMessageFromAnnotation(annotation));
+                    ConstraintViolation constraintViolation =
+                            new ParameterConstraintViolation(errorMessage, parameter, annotation, parameterValue, method);
+                    listConstraintViolations.add(constraintViolation);
+                }
+            }
+        }
+        return listConstraintViolations;
     }
 
     public List<ConstraintViolation> validateMethodReturnValue(Method method, Object returnValue){
-        return new ArrayList<>();
+        List<ConstraintViolation> constraintViolations = new ArrayList<>();
+        Annotation[] annotations = method.getDeclaredAnnotations();
+        for(Annotation annotation : annotations) {
+            Constraint bindAnnotation = annotation.annotationType().getDeclaredAnnotation(Constraint.class);
+            if(bindAnnotation == null)
+                continue;
+            Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
+            Rule rule = null;
+            try {
+                rule = (Rule) ruleClazz.getDeclaredConstructor().newInstance();
+            } catch (NoSuchMethodException | InstantiationException |
+                    IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+                continue;
+            }
+            if(!rule.check(annotation, returnValue)) {
+                String errorMessage = getMessageFromAnnotation(annotation);
+                errorMessage = errorMessage == null ? String.format("%s: Error in %s", method.getName(), returnValue) :
+                        String.format("%s: %s", method.getName(), errorMessage);
+                ConstraintViolation constraintViolation = new MethodConstraintViolation(errorMessage, annotation, method, returnValue);
+                constraintViolations.add(constraintViolation);
+            }
+        }
+        return constraintViolations;
     }
 
     public List<ConstraintViolation> validateConstructor(Constructor constructor, Object[] parameterValues) {
