@@ -1,6 +1,6 @@
 package com.d3h.validation.creator;
 
-import com.d3h.validation.Enhancer.D3HEnhancer;
+import com.d3h.validation.enhancer.D3HEnhancer;
 import com.d3h.validation.handler.Handler;
 import com.d3h.validation.util.WarningUtils;
 import net.sf.cglib.proxy.Enhancer;

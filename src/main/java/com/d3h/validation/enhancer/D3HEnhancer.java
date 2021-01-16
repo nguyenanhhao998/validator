@@ -1,4 +1,4 @@
-package com.d3h.validation.Enhancer;
+package com.d3h.validation.enhancer;
 
 import com.d3h.validation.exception.D3HException;
 import com.d3h.validation.validator.Validator;

@@ -1,6 +1,5 @@
 package com.d3h.validation.validator;
 
-import com.d3h.validation.rule.constraint.Composite.Creator;
 import com.d3h.validation.rule.Constraint;
 import com.d3h.validation.rule.constraint.Rule;
 import com.d3h.validation.violation.*;
@@ -45,7 +44,7 @@ public class Validator {
                             continue;
                         }
                         Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
-                        Rule rule = (Rule) Creator.getInstance().create(ruleClazz);
+                        Rule rule = (Rule) ruleClazz.newInstance();
 
                         if (!rule.check(annotation, value)){
                             String errorMessage = getMessageFromAnnotation(annotation) ;
@@ -73,30 +72,37 @@ public class Validator {
         }
     }
 
-    public List<ConstraintViolation> validateMethodParameters(Object object, Method method, Object[] parameterValues){
+    public List<ConstraintViolation> validateMethodParameters(Object object, Method method, Object[] parameterValues) {
         List<ConstraintViolation> listConstraintViolations = new ArrayList<>();
-        Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-        Parameter[] parameters = method.getParameters();
-        for(int i = 0; i < parameterAnnotations.length && i < parameterValues.length && i < parameters.length; i++) {
-            Annotation[] parameterAnnotation = parameterAnnotations[i];
-            Parameter parameter = parameters[i];
-            Object parameterValue = parameterValues[i];
-            for(Annotation annotation : parameterAnnotation) {
-                Constraint bindAnnotation = annotation.annotationType().getDeclaredAnnotation(Constraint.class);
-                if (bindAnnotation == null)
-                    continue;
-                Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
-                Rule rule = (Rule) Creator.getInstance().create(ruleClazz);
-                if(!rule.check(annotation, parameterValue)) {
-                    String errorMessage = getMessageFromAnnotation(annotation);
-                    errorMessage = errorMessage == null ? String.format("%s: Error in %s", parameter.getName(), parameterValue) :
-                            String.format("%s: %s", parameter.getName(), getMessageFromAnnotation(annotation));
-                    ConstraintViolation constraintViolation =
-                            new ParameterConstraintViolation(errorMessage, parameter, annotation, parameterValue, method);
-                    listConstraintViolations.add(constraintViolation);
+
+        try {
+            Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+            Parameter[] parameters = method.getParameters();
+            for(int i = 0; i < parameterAnnotations.length && i < parameterValues.length && i < parameters.length; i++) {
+                Annotation[] parameterAnnotation = parameterAnnotations[i];
+                Parameter parameter = parameters[i];
+                Object parameterValue = parameterValues[i];
+                for(Annotation annotation : parameterAnnotation) {
+                    Constraint bindAnnotation = annotation.annotationType().getDeclaredAnnotation(Constraint.class);
+                    if (bindAnnotation == null)
+                        continue;
+                    Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
+                    //Rule rule = (Rule) Creator.getInstance().create(ruleClazz);
+                    Rule rule = (Rule) ruleClazz.newInstance();
+                    if(!rule.check(annotation, parameterValue)) {
+                        String errorMessage = getMessageFromAnnotation(annotation);
+                        errorMessage = errorMessage == null ? String.format("%s: Error in %s", parameter.getName(), parameterValue) :
+                                String.format("%s: %s", parameter.getName(), getMessageFromAnnotation(annotation));
+                        ConstraintViolation constraintViolation =
+                                new ParameterConstraintViolation(errorMessage, parameter, annotation, parameterValue, method);
+                        listConstraintViolations.add(constraintViolation);
+                    }
                 }
             }
+        } catch (Exception ex) {
+            return listConstraintViolations;
         }
+
         return listConstraintViolations;
     }
 
@@ -129,6 +135,7 @@ public class Validator {
 
     public List<ConstraintViolation> validateConstructor(Constructor constructor, Object[] parameterValues) {
         List<ConstraintViolation> listConstraintViolations = new ArrayList<>();
+        try {
 
             Annotation[] declaredAnnotations = constructor.getDeclaredAnnotations();
 
@@ -139,7 +146,7 @@ public class Validator {
                         continue;
                     }
                     Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
-                    Rule rule = (Rule) Creator.getInstance().create(ruleClazz);
+                    Rule rule = (Rule) ruleClazz.newInstance();
 
                     for (Object value : parameterValues) {
                         if (!rule.check(annotation, value)) {
@@ -162,7 +169,7 @@ public class Validator {
                         continue;
                     }
                     Class<? extends Rule<? extends Annotation, ?>> ruleClazz = bindAnnotation.value();
-                    Rule rule = (Rule) Creator.getInstance().create(ruleClazz);
+                    Rule rule = (Rule) ruleClazz.newInstance();
 
                     if (!rule.check(annotation, parameterValues[i])) {
                         String errorMessage = getMessageFromAnnotation(annotation);
@@ -172,6 +179,9 @@ public class Validator {
                     }
                 }
             }
+        } catch (Exception ex) {
+            return listConstraintViolations;
+        }
 
 
         return listConstraintViolations;
