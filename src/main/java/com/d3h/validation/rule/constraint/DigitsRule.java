@@ -5,7 +5,7 @@ import com.d3h.validation.rule.annotation.Digits;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class DigitsRule implements Rule<Digits> {
+public class DigitsRule implements Rule<Digits, Object> {
     @Override
     public boolean check(Digits annotation, Object value) {
         Class clazz = value.getClass();
@@ -69,10 +69,5 @@ public class DigitsRule implements Rule<Digits> {
         }
 
         return false;
-    }
-
-    @Override
-    public Class<Digits> getAnnotationClass() {
-        return null;
     }
 }

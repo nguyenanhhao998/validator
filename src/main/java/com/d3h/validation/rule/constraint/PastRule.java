@@ -6,7 +6,7 @@ import java.beans.PropertyEditorSupport;
 import java.util.Calendar;
 import java.util.Date;
 
-public class PastRule implements Rule<Past> {
+public class PastRule implements Rule<Past, Object> {
     @Override
     public boolean check(Past annotation, Object value) {
         Class clazz = value.getClass();
@@ -23,10 +23,5 @@ public class PastRule implements Rule<Past> {
             return true;
 
         return false;
-    }
-
-    @Override
-    public Class<Past> getAnnotationClass() {
-        return null;
     }
 }

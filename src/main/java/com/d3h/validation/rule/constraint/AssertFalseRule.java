@@ -2,7 +2,7 @@ package com.d3h.validation.rule.constraint;
 
 import com.d3h.validation.rule.annotation.AssertFalse;
 
-public class AssertFalseRule implements Rule<AssertFalse> {
+public class AssertFalseRule implements Rule<AssertFalse, Object> {
     @Override
     public boolean check(AssertFalse annotation, Object value) {
         Class clazz = value.getClass();
@@ -13,10 +13,5 @@ public class AssertFalseRule implements Rule<AssertFalse> {
         if(value == null) return true;
 
         return !((Boolean) value);
-    }
-
-    @Override
-    public Class<AssertFalse> getAnnotationClass() {
-        return null;
     }
 }

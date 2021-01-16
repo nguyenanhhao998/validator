@@ -7,7 +7,7 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 
-public class NotEmptyRule implements Rule<NotEmpty> {
+public class NotEmptyRule implements Rule<NotEmpty, Object> {
     @Override
     public boolean check(NotEmpty annotation, Object value) {
         Class clazz = value.getClass();
@@ -28,10 +28,5 @@ public class NotEmptyRule implements Rule<NotEmpty> {
             return true;
 
         return false;
-    }
-
-    @Override
-    public Class<NotEmpty> getAnnotationClass() {
-        return null;
     }
 }

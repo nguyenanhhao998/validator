@@ -4,7 +4,7 @@ import com.d3h.validation.rule.annotation.DecimalMin;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-public class DecimalMinRule implements Rule<DecimalMin> {
+public class DecimalMinRule implements Rule<DecimalMin, Object> {
     @Override
     public boolean check(DecimalMin annotation, Object value) {
         Class clazz = value.getClass();
@@ -75,10 +75,5 @@ public class DecimalMinRule implements Rule<DecimalMin> {
         }
 
         return false;
-    }
-
-    @Override
-    public Class<DecimalMin> getAnnotationClass() {
-        return null;
     }
 }

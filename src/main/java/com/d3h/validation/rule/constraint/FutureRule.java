@@ -5,7 +5,7 @@ import com.d3h.validation.rule.annotation.Future;
 import java.util.Calendar;
 import java.util.Date;
 
-public class FutureRule implements Rule<Future> {
+public class FutureRule implements Rule<Future, Object> {
     @Override
     public boolean check(Future annotation, Object value) {
         Class clazz = value.getClass();
@@ -22,10 +22,5 @@ public class FutureRule implements Rule<Future> {
             return true;
 
         return false;
-    }
-
-    @Override
-    public Class<Future> getAnnotationClass() {
-        return null;
     }
 }

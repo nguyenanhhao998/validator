@@ -4,7 +4,7 @@ import com.d3h.validation.rule.annotation.DecimalMax;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-public class DecimalMaxRule implements Rule<DecimalMax> {
+public class DecimalMaxRule implements Rule<DecimalMax, Object> {
     @Override
     public boolean check(DecimalMax annotation, Object value) {
         Class clazz = value.getClass();
@@ -75,10 +75,5 @@ public class DecimalMaxRule implements Rule<DecimalMax> {
         }
 
         return false;
-    }
-
-    @Override
-    public Class<DecimalMax> getAnnotationClass() {
-        return null;
     }
 }

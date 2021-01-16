@@ -7,7 +7,7 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 
-public class SizeRule implements Rule<Size> {
+public class SizeRule implements Rule<Size, Object> {
     @Override
     public boolean check(Size annotation, Object value) {
         Class clazz = value.getClass();
@@ -42,10 +42,5 @@ public class SizeRule implements Rule<Size> {
         }
 
         return false;
-    }
-
-    @Override
-    public Class<Size> getAnnotationClass() {
-        return null;
     }
 }
