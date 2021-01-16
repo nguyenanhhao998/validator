@@ -6,11 +6,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
-public class MethodConstraintViolation implements ConstraintViolation {
-    String message;
-    Method method;
-    Annotation annotation;
-    Object executableReturnValue;
+public class MethodConstraintViolation extends ConstraintViolation {
+    private String message;
+    private Method method;
+    private Annotation annotation;
+    private Object executableReturnValue;
 
     public MethodConstraintViolation(String message, Annotation annotation,
                                      Method method, Object executableReturnValue) {
