@@ -81,7 +81,7 @@ public class Validator {
         }
     }
 
-    public List<ConstraintViolation> validateMethodParameters(Object object, Method method, Object[] parameterValues) {
+    public List<ConstraintViolation> validateMethodParameters(Method method, Object[] parameterValues) {
         List<ConstraintViolation> listConstraintViolations = new ArrayList<>();
 
         try {
