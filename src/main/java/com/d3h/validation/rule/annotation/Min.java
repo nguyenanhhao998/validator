@@ -14,5 +14,5 @@ import java.lang.annotation.Target;
 public @interface Min {
     long value();
 
-    String message() default "{com.d3h.validation.rule.constraint.Min.message}";
+    String message() default "{com.d3h.validation.constraints.Min.message}";
 }

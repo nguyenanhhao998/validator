@@ -16,5 +16,5 @@ public @interface Bound {
 
     Min min();
 
-    String message() default "Lỗi bound";
+    String message() default "{d3h.validation.constraints.Bound.message}";
 }

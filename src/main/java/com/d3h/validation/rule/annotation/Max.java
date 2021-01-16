@@ -14,5 +14,5 @@ import java.lang.annotation.Target;
 public @interface Max {
     long value();
 
-    String message() default "{com.d3h.validation.rule.constraint.Max.message}";
+    String message() default "{com.d3h.validation.constraints.Max.message}";
 }
