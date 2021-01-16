@@ -1,8 +1,10 @@
 package com.d3h.validation.violation;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 public interface ConstraintViolation {
     String getMessage();
@@ -12,4 +14,6 @@ public interface ConstraintViolation {
     Method getMethod() ;
     Object[] getExecutableParameters();
     Object getExecutableReturnValue();
+    Constructor getConstructor();
+    Parameter getParameter();
 }

@@ -10,9 +10,17 @@ public class Main {
     public static void main(String[] args) throws IllegalAccessException {
         Student student = CGlibClassCreator.getInstance().create(Student.class);
         try {
-            student.setMssv("1712999");
-        } catch (D3HException d3HException){
-            System.out.println(d3HException.getConstraintViolations().get(0).getMessage());
+            CGlibClassCreator classCreator = CGlibClassCreator.getInstance();
+            Student student = classCreator.create(Student.class);
+        } catch (D3HException exception) {
+
+//            exception.printStackTrace();
+            List<ConstraintViolation> constraintViolations = exception.getConstraintViolations();
+            for(ConstraintViolation constraintViolation : constraintViolations) {
+                System.out.println(constraintViolation.getMessage());
+            }
         }
+
+
     }
 }
