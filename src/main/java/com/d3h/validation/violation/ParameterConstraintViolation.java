@@ -1,7 +1,5 @@
 package com.d3h.validation.violation;
 
-import com.d3h.validation.validator.Validator;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -26,6 +24,7 @@ public class ParameterConstraintViolation implements ConstraintViolation {
         this.invalidValue = invalidValue;
         this.method = method;
     }
+
     @Override
     public String getMessage() {
         return message;

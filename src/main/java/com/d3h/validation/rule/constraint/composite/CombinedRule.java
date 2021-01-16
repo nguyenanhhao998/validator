@@ -10,26 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CombinedRule<T extends Annotation, V extends Object> implements Rule<T, V> {
-//    protected boolean checkDeclare(Annotation source, Object value) {
-//        Annotation[] annotations = source.annotationType().getAnnotations();
-//        for (Annotation annotation: annotations) {
-//            String name =annotation.annotationType().getName();
-//            if(Constraint.class.getName() != name && Target.class.getName() != name && name != Retention.class.getName())
-//            {
-//                ConstraintViolation constraintViolation = Validator.getInstance().validateAnnotation(annotation, value);
-//                if(constraintViolation != null)
-//                    return false;
-//            }
-//        }
-//        return true;
-//    }
-
-    private List<Annotation> getAnnotationMembers(Annotation annotation)  {
+    private List<Annotation> getAnnotationMembers(Annotation annotation) {
         List<Annotation> annotationList = new ArrayList<>();
+
         try {
             Method[] methods = annotation.getClass().getDeclaredMethods();
-            for (Method method: methods) {
-                if(method.getParameterCount() == 0) {
+            for (Method method : methods) {
+                if (method.getParameterCount() == 0) {
                     Object returnValue = method.invoke(annotation);
                     if (returnValue instanceof Annotation) {
                         annotationList.add((Annotation) returnValue);
@@ -37,24 +24,24 @@ public abstract class CombinedRule<T extends Annotation, V extends Object> imple
                 }
             }
         } catch (Exception e) {
-            //just ignore
             e.printStackTrace();
         }
+
         return annotationList;
     }
 
     private boolean checkDeclaredRules(T source, V value) {
         List<Annotation> annotationList = getAnnotationMembers(source);
 
-        for(Annotation annotation : annotationList){
+        for (Annotation annotation : annotationList) {
             ConstraintViolation violation = Validator.getInstance().validateAnnotation(annotation, value);
             if (violation != null) {
                 return false;
             }
         }
+
         return true;
     }
-
 
 
     @Override

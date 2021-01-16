@@ -7,10 +7,10 @@ public class AssertFalseRule implements Rule<AssertFalse, Object> {
     public boolean check(AssertFalse annotation, Object value) {
         Class clazz = value.getClass();
 
-        if(!(value instanceof Boolean) && clazz != boolean.class)
+        if (!(value instanceof Boolean) && clazz != boolean.class)
             return false;
 
-        if(value == null) return true;
+        if (value == null) return true;
 
         return !((Boolean) value);
     }
