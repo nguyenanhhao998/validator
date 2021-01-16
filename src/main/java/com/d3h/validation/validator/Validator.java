@@ -27,7 +27,7 @@ public class Validator {
         Class<?>[] fromInterfaces = object.getClass().getInterfaces();
         for (Class fromInterface: fromInterfaces) {
             if (fromInterface.equals(Factory.class)) {
-                validateFields(object, object.getClass().getSuperclass());
+                return validateFields(object, object.getClass().getSuperclass());
             }
         }
         return validateFields(object, object.getClass());

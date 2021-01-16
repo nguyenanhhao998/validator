@@ -36,13 +36,7 @@ public class CGlibClassCreator implements ICreator {
     }
 
     @Override
-    public <T> T create(Class<T> clazz, Object[] args) {
-        Class<?>[] argsType = new Class<?>[args.length];
-
-        for (int i = 0; i < args.length; i++) {
-            argsType[i] = args[i].getClass();
-        }
-
+    public <T> T create(Class<T> clazz, Class[] argsType,  Object[] args) {
         return (T) getNewEnhancerInstance(clazz).create(argsType, args);
     }
 }
