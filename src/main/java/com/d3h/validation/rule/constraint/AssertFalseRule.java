@@ -12,7 +12,7 @@ public class AssertFalseRule implements Rule<AssertFalse> {
 
         if(value == null) return true;
 
-        return (Boolean) value;
+        return !((Boolean) value);
     }
 
     @Override
