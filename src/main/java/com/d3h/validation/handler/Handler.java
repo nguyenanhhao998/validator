@@ -28,7 +28,7 @@ public class Handler implements MethodInterceptor {
                 throw new D3HException(constraintViolations);
             }
 
-            constraintViolations = Validator.getInstance().validateFields(o, o.getClass().getSuperclass());
+            constraintViolations = Validator.getInstance().validate(o);
 
             if (constraintViolations.size() != 0) {
                 throw new D3HException(constraintViolations);

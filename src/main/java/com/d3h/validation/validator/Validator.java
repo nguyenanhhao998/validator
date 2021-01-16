@@ -3,6 +3,7 @@ package com.d3h.validation.validator;
 import com.d3h.validation.rule.Constraint;
 import com.d3h.validation.rule.constraint.Rule;
 import com.d3h.validation.violation.*;
+import net.sf.cglib.proxy.Factory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
@@ -22,11 +23,17 @@ public class Validator {
         return instance;
     }
 
-    public List<ConstraintViolation> validateFields(Object object) {
+    public List<ConstraintViolation> validate(Object object) {
+        Class<?>[] fromInterfaces = object.getClass().getInterfaces();
+        for (Class fromInterface: fromInterfaces) {
+            if (fromInterface.equals(Factory.class)) {
+                validateFields(object, object.getClass().getSuperclass());
+            }
+        }
         return validateFields(object, object.getClass());
     }
 
-    public List<ConstraintViolation> validateFields(Object object, Class<?> clazz) {
+    private List<ConstraintViolation> validateFields(Object object, Class<?> clazz) {
         List<ConstraintViolation> listConstraintViolations = new ArrayList<>();
 
         try {

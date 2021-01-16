@@ -21,7 +21,7 @@ public class D3HEnhancer extends Enhancer {
                 throw new D3HException(violations);
 
             Object newObject = super.create(argumentTypes, arguments);
-            violations = Validator.getInstance().validateFields(newObject, newObject.getClass().getSuperclass());
+            violations = Validator.getInstance().validate(newObject);
 
             if (violations.size() != 0)
                 throw new D3HException(violations);
@@ -36,7 +36,7 @@ public class D3HEnhancer extends Enhancer {
     @Override
     public Object create() {
         Object newObject = super.create();
-        List<ConstraintViolation> violations = Validator.getInstance().validateFields(newObject, newObject.getClass().getSuperclass());
+        List<ConstraintViolation> violations = Validator.getInstance().validate(newObject);
 
         if (violations.size() != 0)
             throw new D3HException(violations);
