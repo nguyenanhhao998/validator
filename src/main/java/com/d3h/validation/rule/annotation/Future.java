@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Future {
-    String message() default "{javax.validation.constraints.Future.message}";
+    String message() default "{d3h.validation.constraints.Future.message}";
 }

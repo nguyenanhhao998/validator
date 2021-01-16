@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(NotEmptyRule.class)
 public @interface NotEmpty {
-    String message() default "{javax.validation.constraints.NotEmpty.message}";
+    String message() default "{d3h.validation.constraints.NotEmpty.message}";
 }

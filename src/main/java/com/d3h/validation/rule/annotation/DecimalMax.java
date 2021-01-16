@@ -13,6 +13,6 @@ import java.lang.annotation.Target;
 @Constraint(DecimalMaxRule.class)
 public @interface DecimalMax {
     String value();
-    boolean inclusive();
-    String message() default "{javax.validation.constraints.DecimalMax.message}";
+    boolean inclusive() default true;
+    String message() default "{d3h.validation.constraints.DecimalMax.message}";
 }

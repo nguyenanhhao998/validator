@@ -14,6 +14,6 @@ import java.lang.annotation.Target;
 @Constraint(DecimalMinRule.class)
 public @interface DecimalMin {
     String value();
-    boolean inclusive();
-    String message() default "{javax.validation.constraints.DecimalMin.message}";
+    boolean inclusive() default true;
+    String message() default "{d3h.validation.constraints.DecimalMin.message}";
 }

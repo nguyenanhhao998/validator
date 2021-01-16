@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Past {
-    String message() default "{javax.validation.constraints.Past.message}";
+    String message() default "{d3h.validation.constraints.Past.message}";
 }

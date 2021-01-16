@@ -9,5 +9,5 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotNull {
-    String message() default "Value cannot be null";
+    String message() default "{d3h.validation.constraints.NotNull.message}";
 }

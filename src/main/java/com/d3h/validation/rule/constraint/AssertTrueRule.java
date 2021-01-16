@@ -7,7 +7,7 @@ public class AssertTrueRule implements Rule<AssertTrue> {
     public boolean check(AssertTrue annotation, Object value) {
         Class clazz = value.getClass();
 
-        if(clazz != Boolean.class && clazz != boolean.class)
+        if(!(value instanceof Boolean) && clazz != boolean.class)
             return false;
 
         if(value == null) return true;

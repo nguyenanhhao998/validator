@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AssertTrue {
-    String message() default "{javax.validation.constraints.AssertTrue.message}";
+    String message() default "{d3h.validation.constraints.AssertTrue.message}";
 }

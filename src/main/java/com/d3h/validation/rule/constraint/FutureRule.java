@@ -10,15 +10,15 @@ public class FutureRule implements Rule<Future> {
     public boolean check(Future annotation, Object value) {
         Class clazz = value.getClass();
 
-        if(clazz != Date.class && clazz != Calendar.class)
+        if(clazz != Date.class && !(value instanceof Calendar))
             return false;
 
         if(value == null) return true;
 
-        if(Date.class.equals(clazz) && (new Date()).compareTo((Date) value) > 0)
+        if(Date.class.equals(clazz) && (new Date()).compareTo((Date) value) < 0)
             return true;
 
-        if(Calendar.class.equals(clazz) && (Calendar.getInstance()).compareTo((Calendar) value) > 0)
+        if(value instanceof Calendar && (Calendar.getInstance()).compareTo((Calendar) value) < 0)
             return true;
 
         return false;

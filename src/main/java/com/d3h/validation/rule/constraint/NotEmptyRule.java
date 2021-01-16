@@ -12,16 +12,16 @@ public class NotEmptyRule implements Rule<NotEmpty> {
     public boolean check(NotEmpty annotation, Object value) {
         Class clazz = value.getClass();
 
-        if(value == null && clazz != CharSequence.class && clazz!= Collection.class && clazz != Map.class && !clazz.isArray())
+        if(value == null && !(value instanceof CharSequence) && !(value instanceof Collection) && !(value instanceof Map) && !clazz.isArray())
             return false;
 
-        if (CharSequence.class.equals(clazz) && ((CharSequence)value).length() != 0)
+        if (value instanceof CharSequence && ((CharSequence)value).length() != 0)
             return true;
 
-        if(Collection.class.equals(clazz) && !((Collection)value).isEmpty())
+        if(value instanceof Collection && ((Collection) value).isEmpty())
             return true;
 
-        if(Map.class.equals(clazz) && !((Map)value).isEmpty())
+        if(value instanceof Map && !((Map) value).isEmpty())
             return true;
 
         if(clazz.isArray() && Array.getLength(value) != 0)
