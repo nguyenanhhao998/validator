@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
-public class MethodConstraintViolation implements ConstraintViolation{
+public class MethodConstraintViolation implements ConstraintViolation {
     String message;
     Method method;
     Annotation annotation;
