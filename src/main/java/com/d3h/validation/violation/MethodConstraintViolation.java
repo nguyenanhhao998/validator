@@ -1,15 +1,24 @@
 package com.d3h.validation.violation;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 public class MethodConstraintViolation implements ConstraintViolation{
     String message;
-    Annotation annotation;
     Method method;
-    Object[] executableParameters;
+    Annotation annotation;
     Object executableReturnValue;
+
+    public MethodConstraintViolation(String message, Annotation annotation,
+                                     Method method, Object executableReturnValue) {
+        this.message = message;
+        this.method = method;
+        this.annotation = annotation;
+        this.executableReturnValue = executableReturnValue;
+    }
 
     @Override
     public String getMessage() {
@@ -17,8 +26,18 @@ public class MethodConstraintViolation implements ConstraintViolation{
     }
 
     @Override
+    public Method getMethod() {
+        return method;
+    }
+
+    @Override
     public Annotation getAnnotation() {
         return annotation;
+    }
+
+    @Override
+    public Object getExecutableReturnValue() {
+        return executableReturnValue;
     }
 
     @Override
@@ -32,17 +51,17 @@ public class MethodConstraintViolation implements ConstraintViolation{
     }
 
     @Override
-    public Method getMethod() {
-        return method;
-    }
-
-    @Override
     public Object[] getExecutableParameters() {
-        return executableParameters;
+        return null;
     }
 
     @Override
-    public Object getExecutableReturnValue() {
-        return executableReturnValue;
+    public Constructor getConstructor() {
+        return null;
+    }
+
+    @Override
+    public Parameter getParameter() {
+        return null;
     }
 }

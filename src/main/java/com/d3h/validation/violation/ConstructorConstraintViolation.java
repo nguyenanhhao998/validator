@@ -6,17 +6,17 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
-public class FieldConstraintViolation implements ConstraintViolation{
+public class ConstructorConstraintViolation implements ConstraintViolation{
     String message;
     Annotation annotation;
-    Object invalidValue;
-    Field field;
+    Constructor constructor;
+    Object[] executableParameters;
 
-    public FieldConstraintViolation(String message, Annotation annotation, Object invalidValue, Field field) {
+    public ConstructorConstraintViolation(String message, Annotation annotation, Constructor constructor, Object[] executableParameters) {
         this.message = message;
         this.annotation = annotation;
-        this.invalidValue = invalidValue;
-        this.field = field;
+        this.constructor = constructor;
+        this.executableParameters = executableParameters;
     }
 
     @Override
@@ -31,12 +31,12 @@ public class FieldConstraintViolation implements ConstraintViolation{
 
     @Override
     public Object getInvalidValue() {
-        return invalidValue;
+        return null;
     }
 
     @Override
     public Field getField() {
-        return field;
+        return null;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class FieldConstraintViolation implements ConstraintViolation{
 
     @Override
     public Object[] getExecutableParameters() {
-        return null;
+        return executableParameters;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class FieldConstraintViolation implements ConstraintViolation{
 
     @Override
     public Constructor getConstructor() {
-        return null;
+        return constructor;
     }
 
     @Override
