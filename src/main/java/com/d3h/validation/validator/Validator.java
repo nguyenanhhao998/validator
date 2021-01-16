@@ -89,8 +89,7 @@ public class Validator {
                 Rule rule = (Rule) Creator.getInstance().create(ruleClazz);
                 if(!rule.check(annotation, parameterValue)) {
                     String errorMessage = getMessageFromAnnotation(annotation);
-                    errorMessage = errorMessage == null ? String.format("%s: Error in %s", parameter.getName(), parameterValue) :
-                            String.format("%s: %s", parameter.getName(), getMessageFromAnnotation(annotation));
+                    errorMessage = errorMessage == null ? String.format("Error with %s", parameterValue) : errorMessage;
                     ConstraintViolation constraintViolation =
                             new ParameterConstraintViolation(errorMessage, parameter, annotation, parameterValue, method);
                     listConstraintViolations.add(constraintViolation);
@@ -118,8 +117,7 @@ public class Validator {
             }
             if(!rule.check(annotation, returnValue)) {
                 String errorMessage = getMessageFromAnnotation(annotation);
-                errorMessage = errorMessage == null ? String.format("%s: Error in %s", method.getName(), returnValue) :
-                        String.format("%s: %s", method.getName(), errorMessage);
+                errorMessage = errorMessage == null ? String.format("Error in %s", returnValue) : errorMessage;
                 ConstraintViolation constraintViolation = new MethodConstraintViolation(errorMessage, annotation, method, returnValue);
                 constraintViolations.add(constraintViolation);
             }
