@@ -8,14 +8,13 @@ import java.util.Date;
 public class PastRule implements Rule<Past, Object> {
     @Override
     public boolean check(Past annotation, Object value) {
-        Class clazz = value.getClass();
-
-        if (clazz != Date.class && !(value instanceof Calendar))
-            return false;
 
         if (value == null) return true;
 
-        if (Date.class.equals(clazz) && (new Date()).compareTo((Date) value) > 0)
+        if (!(value instanceof Date) && !(value instanceof Calendar))
+            return false;
+
+        if (value instanceof Date && (new Date()).compareTo((Date) value) > 0)
             return true;
 
         if (value instanceof Calendar && (Calendar.getInstance()).compareTo((Calendar) value) > 0)

@@ -8,14 +8,14 @@ import java.math.BigInteger;
 public class DigitsRule implements Rule<Digits, Object> {
     @Override
     public boolean check(Digits annotation, Object value) {
-        Class clazz = value.getClass();
+        if (value == null)
+            return true;
 
-        if (clazz != BigDecimal.class && clazz != BigInteger.class && !(value instanceof CharSequence) && clazz != Byte.class && clazz != Short.class && clazz != Integer.class && clazz != Long.class)
+        if (!(value instanceof BigDecimal) && !(value instanceof BigInteger) && !(value instanceof CharSequence) && !(value instanceof Byte) && !(value instanceof Short) && !(value instanceof Integer) && !(value instanceof Long))
             return false;
 
-        if (value == null) return true;
 
-        if (BigDecimal.class.equals(clazz)) {
+        if (value instanceof BigDecimal) {
             BigDecimal n = ((BigDecimal) value);
             int integer = n.signum() == 0 ? 1 : n.precision() - n.scale();
             int frac = Math.max(0, n.stripTrailingZeros().scale());
@@ -24,7 +24,7 @@ public class DigitsRule implements Rule<Digits, Object> {
                 return true;
         }
 
-        if (BigInteger.class.equals(clazz)) {
+        if (value instanceof BigInteger) {
             BigInteger n = ((BigInteger) value);
             int integer = n.toString().length();
 
@@ -41,7 +41,7 @@ public class DigitsRule implements Rule<Digits, Object> {
                 return true;
         }
 
-        if (Byte.class.equals(clazz)) {
+        if (value instanceof Byte) {
             BigDecimal n = new BigDecimal(((Byte) value).toString());
             int integer = n.signum() == 0 ? 1 : n.precision() - n.scale();
             int frac = Math.max(0, n.stripTrailingZeros().scale());
@@ -50,19 +50,19 @@ public class DigitsRule implements Rule<Digits, Object> {
                 return true;
         }
 
-        if (Short.class.equals(clazz)) {
+        if (value instanceof Short) {
             int integer = ((Short) value).toString().length();
             if (integer <= annotation.integer())
                 return true;
         }
 
-        if (Integer.class.equals(clazz)) {
+        if (value instanceof Integer) {
             int integer = ((Integer) value).toString().length();
             if (integer <= annotation.integer())
                 return true;
         }
 
-        if (Long.class.equals(clazz)) {
+        if (value instanceof Long) {
             int integer = ((Long) value).toString().length();
             if (integer <= annotation.integer())
                 return true;

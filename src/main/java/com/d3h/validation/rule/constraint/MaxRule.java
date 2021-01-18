@@ -8,17 +8,20 @@ import java.math.BigInteger;
 public class MaxRule implements Rule<Max, Object> {
     @Override
     public boolean check(Max annotation, Object value) {
-        Class clazz = value.getClass();
 
-        if (clazz != BigDecimal.class && clazz != BigInteger.class && clazz != Byte.class && clazz != Short.class && clazz != Integer.class && clazz != Long.class)
+        if (value == null) {
+            return true;
+        }
+
+        if (!(value instanceof BigDecimal) && ! (value instanceof BigInteger) && !(value instanceof Byte) && !(value instanceof Short) && !(value instanceof Integer) && !(value instanceof Long))
             return false;
 
-        if (clazz == double.class || clazz == float.class)
+        if (value instanceof Double || value instanceof Float)
             return false;
 
         Long finalValue;
 
-        if (clazz == BigDecimal.class) {
+        if (value instanceof BigDecimal) {
             finalValue = ((BigDecimal) value).longValue();
 
             if (finalValue > annotation.value())
@@ -27,7 +30,7 @@ public class MaxRule implements Rule<Max, Object> {
                 return true;
         }
 
-        if (clazz == BigInteger.class) {
+        if (value instanceof BigInteger) {
             finalValue = ((BigInteger) value).longValue();
 
             if (finalValue > annotation.value())
@@ -36,7 +39,7 @@ public class MaxRule implements Rule<Max, Object> {
                 return true;
         }
 
-        if (clazz == Byte.class) {
+        if (value instanceof Byte) {
             finalValue = ((Byte) value).longValue();
 
             if (finalValue > annotation.value())
@@ -45,7 +48,7 @@ public class MaxRule implements Rule<Max, Object> {
                 return true;
         }
 
-        if (clazz == Short.class) {
+        if (value instanceof Short) {
             finalValue = ((Short) value).longValue();
 
             if (finalValue > annotation.value())
@@ -54,7 +57,7 @@ public class MaxRule implements Rule<Max, Object> {
                 return true;
         }
 
-        if (clazz == Integer.class) {
+        if (value instanceof Integer) {
             finalValue = ((Integer) value).longValue();
 
             if (finalValue > annotation.value())
@@ -63,7 +66,7 @@ public class MaxRule implements Rule<Max, Object> {
                 return true;
         }
 
-        if (clazz == Long.class) {
+        if (value instanceof Long) {
             finalValue = (Long) value;
 
             if (finalValue > annotation.value())

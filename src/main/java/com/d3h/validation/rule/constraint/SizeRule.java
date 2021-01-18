@@ -9,12 +9,12 @@ import java.util.Map;
 public class SizeRule implements Rule<Size, Object> {
     @Override
     public boolean check(Size annotation, Object value) {
-        Class clazz = value.getClass();
 
-        if (!(value instanceof CharSequence) && !(value instanceof Collection) && !(value instanceof Map) && !clazz.isArray())
+        if (value == null)
+            return true;
+
+        if (!(value instanceof CharSequence) && !(value instanceof Collection) && !(value instanceof Map) && !value.getClass().isArray())
             return false;
-
-        if (value == null) return true;
 
         if (value instanceof CharSequence) {
             int length = ((CharSequence) value).length();
@@ -34,7 +34,7 @@ public class SizeRule implements Rule<Size, Object> {
                 return true;
         }
 
-        if (clazz.isArray()) {
+        if (value.getClass().isArray()) {
             int length = Array.getLength(value);
             if (length >= annotation.min() && length <= annotation.max())
                 return true;

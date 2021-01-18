@@ -8,16 +8,14 @@ import java.math.BigInteger;
 public class DecimalMinRule implements Rule<DecimalMin, Object> {
     @Override
     public boolean check(DecimalMin annotation, Object value) {
-        Class clazz = value.getClass();
-
-        if (clazz != BigDecimal.class && clazz != BigInteger.class && !(value instanceof CharSequence) && clazz != Byte.class && clazz != Short.class && clazz != Integer.class && clazz != Long.class)
-            return false;
-
-        if (clazz == double.class || clazz == float.class)
-            return false;
-
         if (value == null)
             return true;
+
+        if (!(value instanceof BigDecimal) && !(value instanceof BigInteger) && !(value instanceof CharSequence) && !(value instanceof Byte) && !(value instanceof Short) && !(value instanceof Integer) && ! (value instanceof Long))
+            return false;
+
+        if (value instanceof Double || value instanceof Float)
+            return false;
 
         if (value instanceof BigDecimal) {
             int result = ((BigDecimal) value).compareTo(new BigDecimal(annotation.value()));
