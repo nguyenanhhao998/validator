@@ -1,17 +1,11 @@
 package com.d3h.validation.violation;
 
-import com.d3h.validation.validator.Validator;
-
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
-public class ParameterConstraintViolation implements ConstraintViolation {
-    private final String message;
+public class ParameterConstraintViolation extends ConstraintViolation {
     private final Parameter parameter;
-    private final Annotation annotation;
     private final Object invalidValue;
     private final Method method;
 
@@ -26,19 +20,10 @@ public class ParameterConstraintViolation implements ConstraintViolation {
         this.invalidValue = invalidValue;
         this.method = method;
     }
-    @Override
-    public String getMessage() {
-        return message;
-    }
 
     @Override
     public Parameter getParameter() {
         return parameter;
-    }
-
-    @Override
-    public Annotation getAnnotation() {
-        return annotation;
     }
 
     @Override
@@ -49,25 +34,5 @@ public class ParameterConstraintViolation implements ConstraintViolation {
     @Override
     public Method getMethod() {
         return method;
-    }
-
-    @Override
-    public Field getField() {
-        return null;
-    }
-
-    @Override
-    public Object[] getExecutableParameters() {
-        return null;
-    }
-
-    @Override
-    public Object getExecutableReturnValue() {
-        return null;
-    }
-
-    @Override
-    public Constructor getConstructor() {
-        return null;
     }
 }

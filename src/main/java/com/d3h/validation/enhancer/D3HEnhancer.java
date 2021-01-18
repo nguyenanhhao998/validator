@@ -1,4 +1,4 @@
-package com.d3h.validation.Enhancer;
+package com.d3h.validation.enhancer;
 
 import com.d3h.validation.exception.D3HException;
 import com.d3h.validation.validator.Validator;
@@ -16,33 +16,39 @@ public class D3HEnhancer extends Enhancer {
             Class superClass = getSuperClass();
             Constructor constructor = superClass.getConstructor(argumentTypes);
             List<ConstraintViolation> violations = Validator.getInstance().validateConstructor(constructor, arguments);
-            if(violations.size() != 0)
+
+            if (violations.size() != 0)
                 throw new D3HException(violations);
 
-            Object newObject =  super.create(argumentTypes, arguments);
-            violations = Validator.getInstance().validateFields(newObject, newObject.getClass().getSuperclass());
-            if(violations.size() != 0)
+            Object newObject = super.create(argumentTypes, arguments);
+            violations = Validator.getInstance().validate(newObject);
+
+            if (violations.size() != 0)
                 throw new D3HException(violations);
+
             return newObject;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             return null;
         }
     }
+
     @Override
     public Object create() {
         Object newObject = super.create();
-        List<ConstraintViolation> violations = Validator.getInstance().validateFields(newObject, newObject.getClass().getSuperclass());
-        if(violations.size() != 0)
+        List<ConstraintViolation> violations = Validator.getInstance().validate(newObject);
+
+        if (violations.size() != 0)
             throw new D3HException(violations);
+
         return newObject;
     }
 
-    private Class getSuperClass(){
+    private Class getSuperClass() {
         try {
             Field field = this.getClass().getSuperclass().getDeclaredField("superclass");
             field.setAccessible(true);
-            Class superClass = (Class)field.get(this);
+            Class superClass = (Class) field.get(this);
             return superClass;
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
